@@ -119,11 +119,11 @@ const rangoLabel = computed(() => {
 
 .range-tag {
   font-size: 12px;
-  color: #64748b;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 6px 10px;
-  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  background: #f1f4f9;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 

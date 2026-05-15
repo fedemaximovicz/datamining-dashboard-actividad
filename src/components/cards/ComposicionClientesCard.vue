@@ -140,7 +140,7 @@ const centerPct = computed(() => formatPercent(composicionClientes.value.pctFrec
 .legend-row.total {
   grid-template-columns: 1fr auto;
   padding-top: 8px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #e2e8f0;
   margin-top: 2px;
 }
 

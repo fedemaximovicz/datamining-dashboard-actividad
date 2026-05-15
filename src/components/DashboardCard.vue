@@ -8,34 +8,43 @@ defineProps<{
 <template>
   <section class="card">
     <header class="card-header">
-      <div class="title-row">
-        <slot name="title-icon" />
-        <h2 class="title">{{ title }}</h2>
+      <div class="title-block">
+        <div class="title-row">
+          <slot name="title-icon" />
+          <h2 class="title">{{ title }}</h2>
+        </div>
+        <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
       </div>
       <div class="actions"><slot name="actions" /></div>
     </header>
-    <p v-if="subtitle" class="subtitle">{{ subtitle }}</p>
     <div class="content"><slot /></div>
   </section>
 </template>
 
 <style scoped>
 .card {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  background: #f1f4f9;
+  border-radius: 18px;
   padding: 22px 24px;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  border: 1px solid rgba(15, 23, 42, 0.04);
 }
 
 .card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
+}
+
+.title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .title-row {
@@ -47,15 +56,15 @@ defineProps<{
 
 .title {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #0f172a;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
-  margin: 0 0 14px;
-  font-size: 13px;
+  margin: 0;
+  font-size: 12px;
   color: #94a3b8;
 }
 
@@ -63,6 +72,7 @@ defineProps<{
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .content {

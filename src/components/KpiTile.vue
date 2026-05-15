@@ -23,14 +23,14 @@ defineProps<{
 
 <style scoped>
 .kpi-tile {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 22px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  background: #f1f4f9;
+  border-radius: 18px;
+  padding: 22px 24px;
+  border: 1px solid rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 122px;
+  gap: 10px;
+  min-height: 130px;
 }
 
 .kpi-label {
@@ -40,18 +40,19 @@ defineProps<{
 }
 
 .kpi-value {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 700;
   color: #0f172a;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
 }
 
 .kpi-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: auto;
 }
 
 .comparison-label {

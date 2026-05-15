@@ -93,7 +93,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
       },
     },
     y: {
-      grid: { color: '#f1f5f9' },
+      grid: { color: '#e2e8f0' },
       border: { display: false },
       ticks: {
         color: '#94a3b8',

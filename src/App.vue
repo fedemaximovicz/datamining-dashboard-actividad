@@ -22,7 +22,7 @@ body,
 }
 
 body {
-  background: #f3f6fc;
+  background: #ffffff;
   color: #0f172a;
   font-family:
     'Inter',

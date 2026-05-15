@@ -70,7 +70,7 @@ function widthPct(ventas: number): string {
 
 .bar-track {
   height: 8px;
-  background: #f1f5f9;
+  background: #e2e8f0;
   border-radius: 999px;
   overflow: hidden;
 }
