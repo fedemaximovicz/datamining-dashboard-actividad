@@ -1,86 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { storeToRefs } from 'pinia'
-import FilterBar from '@/components/FilterBar.vue'
-import KpiTile from '@/components/KpiTile.vue'
-import VentasEnElTiempoCard from '@/components/cards/VentasEnElTiempoCard.vue'
-import VentasPorCategoriaCard from '@/components/cards/VentasPorCategoriaCard.vue'
-import TopProductosCard from '@/components/cards/TopProductosCard.vue'
-import VentasPorSucursalCard from '@/components/cards/VentasPorSucursalCard.vue'
-import ComposicionClientesCard from '@/components/cards/ComposicionClientesCard.vue'
-import {
-  ETIQUETAS_COMPARACION,
-  useDashboardStore,
-} from '@/stores/dashboard'
-import { formatARS, formatNumber, formatPercent } from '@/utils/format'
-
-const store = useDashboardStore()
-const {
-  ventasTotales,
-  ticketPromedio,
-  transacciones,
-  margenBruto,
-  compararCon,
-  rangoActual,
-} = storeToRefs(store)
-
-const comparacionLabel = computed(() => ETIQUETAS_COMPARACION[compararCon.value])
-
-const rangoLabel = computed(() => {
-  const { desde, hasta } = rangoActual.value
-  return desde === hasta ? desde : `${desde} → ${hasta}`
-})
+// Shell del dashboard de F1. La cabecera, los filtros y los componentes de la
+// sesión de carrera se agregan en las fases siguientes.
 </script>
 
 <template>
   <div class="dashboard">
     <header class="hero">
-      <div>
-        <p class="eyebrow">Cadena de Supermercados · Misiones</p>
-        <h1>Dashboard de ventas</h1>
-      </div>
-      <span class="range-tag">{{ rangoLabel }}</span>
+      <p class="eyebrow">Fórmula 1 · Datos OpenF1</p>
+      <h1>Dashboard de carrera</h1>
     </header>
 
-    <FilterBar />
-
-    <section class="kpi-grid">
-      <KpiTile
-        label="Ventas totales"
-        :valor="formatARS(ventasTotales.valor)"
-        :delta="ventasTotales.delta"
-        :comparacion-label="comparacionLabel"
-      />
-      <KpiTile
-        label="Ticket promedio"
-        :valor="formatARS(ticketPromedio.valor)"
-        :delta="ticketPromedio.delta"
-        :comparacion-label="comparacionLabel"
-      />
-      <KpiTile
-        label="Transacciones"
-        :valor="formatNumber(transacciones.valor)"
-        :delta="transacciones.delta"
-        :comparacion-label="comparacionLabel"
-      />
-      <KpiTile
-        label="Margen bruto"
-        :valor="formatPercent(margenBruto.valor)"
-        :delta="margenBruto.delta"
-        unidad-delta="pp"
-        :comparacion-label="comparacionLabel"
-      />
-    </section>
-
-    <section class="trend-grid">
-      <VentasEnElTiempoCard class="trend-main" />
-      <VentasPorCategoriaCard class="trend-side" />
-    </section>
-
-    <section class="detail-grid">
-      <TopProductosCard />
-      <VentasPorSucursalCard />
-      <ComposicionClientesCard />
+    <section class="placeholder">
+      <p>Próximamente: filtros y componentes de la sesión de carrera.</p>
     </section>
   </div>
 </template>
@@ -93,10 +24,6 @@ const rangoLabel = computed(() => {
 }
 
 .hero {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
   margin-bottom: 18px;
 }
 
@@ -117,60 +44,18 @@ const rangoLabel = computed(() => {
   letter-spacing: -0.02em;
 }
 
-.range-tag {
-  font-size: 12px;
-  color: #0f172a;
-  background: #f1f4f9;
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.trend-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 1100px) {
-  .kpi-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .trend-grid {
-    grid-template-columns: 1fr;
-  }
-  .detail-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.placeholder {
+  border: 1px dashed #cbd5e1;
+  border-radius: 18px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
 }
 
 @media (max-width: 720px) {
   .dashboard {
     padding: 20px 16px 40px;
-  }
-  .hero {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .kpi-grid,
-  .detail-grid {
-    grid-template-columns: 1fr;
   }
 }
 </style>

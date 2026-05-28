@@ -4,11 +4,10 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  ArcElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  Filler,
 } from 'chart.js'
 
 ChartJS.register(
@@ -16,9 +15,8 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  ArcElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  Filler,
 )
