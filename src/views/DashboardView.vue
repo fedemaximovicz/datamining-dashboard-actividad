@@ -5,7 +5,8 @@ import FilterBar from '@/components/FilterBar.vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
 const store = useDashboardStore()
-const { anio, meetingKey, equipo, eventos, error } = storeToRefs(store)
+const { anio, meetingKey, equipo, eventos, error, cargandoDatos, datosListos, standings } =
+  storeToRefs(store)
 
 const eventoLabel = computed(
   () => eventos.value.find((e) => e.meetingKey === meetingKey.value)?.label ?? null,
@@ -34,9 +35,12 @@ const seleccionCompleta = computed(() => Boolean(anio.value && meetingKey.value 
     <p v-if="error" class="error">{{ error }}</p>
 
     <section class="placeholder">
-      <p v-if="seleccionCompleta">
-        Selección lista. Los componentes de la carrera se agregan en la fase 5.
+      <p v-if="cargandoDatos">Cargando datos de la carrera…</p>
+      <p v-else-if="datosListos">
+        Datos listos: {{ standings.length }} pilotos clasificados. Los componentes se agregan en la
+        fase 5.
       </p>
+      <p v-else-if="seleccionCompleta">Sin datos para esta selección.</p>
       <p v-else>Elegí año, evento y equipo para ver los datos de la carrera.</p>
     </section>
   </div>
