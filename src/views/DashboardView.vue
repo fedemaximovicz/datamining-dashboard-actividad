@@ -5,7 +5,7 @@ import FilterBar from '@/components/FilterBar.vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
 const store = useDashboardStore()
-const { anio, meetingKey, equipo, eventos } = storeToRefs(store)
+const { anio, meetingKey, equipo, eventos, error } = storeToRefs(store)
 
 const eventoLabel = computed(
   () => eventos.value.find((e) => e.meetingKey === meetingKey.value)?.label ?? null,
@@ -30,6 +30,8 @@ const seleccionCompleta = computed(() => Boolean(anio.value && meetingKey.value 
     </header>
 
     <FilterBar />
+
+    <p v-if="error" class="error">{{ error }}</p>
 
     <section class="placeholder">
       <p v-if="seleccionCompleta">
@@ -94,6 +96,17 @@ const seleccionCompleta = computed(() => Boolean(anio.value && meetingKey.value 
   padding: 6px 14px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.error {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .placeholder {

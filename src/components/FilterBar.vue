@@ -6,7 +6,8 @@ const store = useDashboardStore()
 
 // storeToRefs solo extrae propiedades reactivas. `aniosDisponibles` es un array
 // readonly plano, así que se desestructura directamente del store.
-const { anio, meetingKey, equipo, eventos, equipos } = storeToRefs(store)
+const { anio, meetingKey, equipo, eventos, equipos, cargandoEventos, cargandoEquipos } =
+  storeToRefs(store)
 const { aniosDisponibles } = store
 </script>
 
@@ -22,9 +23,9 @@ const { aniosDisponibles } = store
 
     <div class="filter-group">
       <label class="filter-label" for="filter-evento">Evento</label>
-      <select id="filter-evento" v-model="meetingKey" class="select" :disabled="!anio">
+      <select id="filter-evento" v-model="meetingKey" class="select" :disabled="!anio || cargandoEventos">
         <option :value="null" disabled>
-          {{ anio ? 'Selecciona un evento' : 'Elegí un año primero' }}
+          {{ cargandoEventos ? 'Cargando eventos…' : anio ? 'Selecciona un evento' : 'Elegí un año primero' }}
         </option>
         <option v-for="ev in eventos" :key="ev.meetingKey" :value="ev.meetingKey">
           {{ ev.label }}
@@ -34,9 +35,9 @@ const { aniosDisponibles } = store
 
     <div class="filter-group">
       <label class="filter-label" for="filter-equipo">Equipo</label>
-      <select id="filter-equipo" v-model="equipo" class="select" :disabled="!meetingKey">
+      <select id="filter-equipo" v-model="equipo" class="select" :disabled="!meetingKey || cargandoEquipos">
         <option :value="null" disabled>
-          {{ meetingKey ? 'Selecciona un equipo' : 'Elegí un evento primero' }}
+          {{ cargandoEquipos ? 'Cargando equipos…' : meetingKey ? 'Selecciona un equipo' : 'Elegí un evento primero' }}
         </option>
         <option v-for="t in equipos" :key="t" :value="t">{{ t }}</option>
       </select>
