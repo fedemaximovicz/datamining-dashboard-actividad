@@ -22,8 +22,8 @@ body,
 }
 
 body {
-  background: #ffffff;
-  color: #0f172a;
+  background: #15151e;
+  color: #f2f2f7;
   font-family:
     'Inter',
     -apple-system,

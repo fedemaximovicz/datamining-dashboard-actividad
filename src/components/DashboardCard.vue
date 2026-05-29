@@ -23,13 +23,13 @@ defineProps<{
 
 <style scoped>
 .card {
-  background: #f1f4f9;
+  background: #1f1f27;
   border-radius: 18px;
   padding: 22px 24px;
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .card-header {
@@ -58,14 +58,14 @@ defineProps<{
   margin: 0;
   font-size: 15px;
   font-weight: 600;
-  color: #0f172a;
+  color: #f8fafc;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
   margin: 0;
   font-size: 12px;
-  color: #94a3b8;
+  color: #8b8d98;
 }
 
 .actions {

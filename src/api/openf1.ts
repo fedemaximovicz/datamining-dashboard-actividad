@@ -9,8 +9,13 @@ import type {
 } from '@/types/f1'
 
 const BASE_URL = 'https://api.openf1.org/v1'
+const MAX_REINTENTOS = 4
 
 type QueryValue = string | number | boolean
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
 
 async function get<T>(endpoint: string, params: Record<string, QueryValue> = {}): Promise<T[]> {
   const url = new URL(`${BASE_URL}/${endpoint}`)
@@ -18,11 +23,29 @@ async function get<T>(endpoint: string, params: Record<string, QueryValue> = {})
     url.searchParams.set(key, String(value))
   }
 
-  const res = await fetch(url.toString())
-  if (!res.ok) {
-    throw new Error(`OpenF1 ${endpoint} respondió ${res.status}`)
+  for (let intento = 0; ; intento++) {
+    const res = await fetch(url.toString())
+
+    // 429 = rate limit de OpenF1. Reintentamos respetando Retry-After si viene,
+    // o con backoff exponencial (1s, 2s, 4s…).
+    if (res.status === 429 && intento < MAX_REINTENTOS) {
+      const retryAfter = Number(res.headers.get('Retry-After'))
+      const esperaMs = Number.isFinite(retryAfter) && retryAfter > 0
+        ? retryAfter * 1000
+        : 2 ** intento * 1000
+      await sleep(esperaMs)
+      continue
+    }
+
+    if (!res.ok) {
+      throw new Error(
+        res.status === 429
+          ? 'OpenF1 está limitando las consultas (429). Probá de nuevo en unos segundos.'
+          : `OpenF1 ${endpoint} respondió ${res.status}`,
+      )
+    }
+    return (await res.json()) as T[]
   }
-  return (await res.json()) as T[]
 }
 
 /** Eventos (Grandes Premios) de un año. */

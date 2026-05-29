@@ -50,7 +50,7 @@ const { aniosDisponibles } = store
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(21, 21, 30, 0.9);
   backdrop-filter: blur(8px);
   padding: 14px 0 18px;
   display: flex;
@@ -58,7 +58,7 @@ const { aniosDisponibles } = store
   gap: 18px 24px;
   align-items: flex-end;
   margin-bottom: 18px;
-  border-bottom: 1px solid #eef2f7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .filter-group {
@@ -70,7 +70,7 @@ const { aniosDisponibles } = store
 
 .filter-label {
   font-size: 11px;
-  color: #94a3b8;
+  color: #8b8d98;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -78,15 +78,15 @@ const { aniosDisponibles } = store
 
 .select {
   appearance: none;
-  background: #f1f4f9;
-  border: 1px solid transparent;
+  background: #26262f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   padding: 8px 32px 8px 14px;
   font-size: 13px;
-  color: #0f172a;
+  color: #f2f2f7;
   font-weight: 500;
   font-family: inherit;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' stroke='%23a0a0ad' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   background-repeat: no-repeat;
   background-position: right 10px center;
   cursor: pointer;
@@ -97,12 +97,17 @@ const { aniosDisponibles } = store
 }
 
 .select:hover:not(:disabled) {
-  background-color: #e8edf5;
+  background-color: #2f2f3a;
 }
 
 .select:focus {
   outline: 0;
-  border-color: #2563eb;
+  border-color: #e10600;
+}
+
+.select option {
+  background: #26262f;
+  color: #f2f2f7;
 }
 
 .select:disabled {

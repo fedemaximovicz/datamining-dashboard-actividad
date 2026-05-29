@@ -121,6 +121,14 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const cargandoDatos = ref(false)
   const error = ref<string | null>(null)
 
+  // La carrera todavía no se disputó (su fecha es futura).
+  const carreraNoDisputada = computed(() => {
+    const s = raceSession.value
+    const fechaRef = s?.date_end ?? s?.date_start
+    if (!fechaRef) return false
+    return new Date(fechaRef).getTime() > Date.now()
+  })
+
   // Pilotos del equipo seleccionado (normalmente 2).
   const pilotosEquipo = computed(() =>
     equipo.value ? drivers.value.filter((d) => d.team_name === equipo.value) : [],
@@ -276,37 +284,30 @@ export const useDashboardStore = defineStore('dashboard', () => {
     limpiarDatosCarrera()
     error.value = null
     const session = raceSession.value
-    if (nuevoEquipo == null || session == null) return
+    // Sin datos que traer si no hay equipo o la carrera aún no se disputó.
+    if (nuevoEquipo == null || session == null || carreraNoDisputada.value) return
 
     const sessionKey = session.session_key
     const pilotos = drivers.value.filter((d) => d.team_name === nuevoEquipo)
 
     cargandoDatos.value = true
     try {
-      const [resultados, ...porPiloto] = await Promise.all([
-        getSessionResult(sessionKey),
-        ...pilotos.map(async (d) => {
-          const [laps, positions, stints] = await Promise.all([
-            getLaps(sessionKey, d.driver_number),
-            getPositions(sessionKey, d.driver_number),
-            getStints(sessionKey, d.driver_number),
-          ])
-          return { driverNumber: d.driver_number, laps, positions, stints }
-        }),
-      ])
+      // Las consultas se hacen de forma secuencial: OpenF1 limita las ráfagas
+      // (responde 429) y disparar todo en paralelo provoca el corte.
+      const resultados = await getSessionResult(sessionKey)
+      const laps: Record<number, Lap[]> = {}
+      const positions: Record<number, PositionRecord[]> = {}
+      const stints: Record<number, Stint[]> = {}
+      for (const d of pilotos) {
+        laps[d.driver_number] = await getLaps(sessionKey, d.driver_number)
+        positions[d.driver_number] = await getPositions(sessionKey, d.driver_number)
+        stints[d.driver_number] = await getStints(sessionKey, d.driver_number)
+      }
 
       // El watcher pudo dispararse de nuevo mientras esperábamos.
       if (equipo.value !== nuevoEquipo) return
 
       sessionResults.value = resultados
-      const laps: Record<number, Lap[]> = {}
-      const positions: Record<number, PositionRecord[]> = {}
-      const stints: Record<number, Stint[]> = {}
-      for (const p of porPiloto) {
-        laps[p.driverNumber] = p.laps
-        positions[p.driverNumber] = p.positions
-        stints[p.driverNumber] = p.stints
-      }
       lapsPorPiloto.value = laps
       positionsPorPiloto.value = positions
       stintsPorPiloto.value = stints
@@ -327,6 +328,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
     raceSession,
     drivers,
     pilotosEquipo,
+    carreraNoDisputada,
     standings,
     posicionPorVuelta,
     stintsEquipo,
